@@ -11,20 +11,32 @@ use App\Livewire\Instructor\CourseBuilder;
 use App\Livewire\Admin\AdminDashboard;
 use App\Livewire\Admin\ManageUsers;
 use App\Livewire\Admin\ManageCourses;
+use App\Livewire\Instructor\ApplyToBecomeInstructor;
 use App\Http\Controllers\Instructor\DashboardController;
 
 Route::get('/', CourseGrid::class)->name('home');
 Route::get('/courses/{slug}', CourseShow::class)->name('public.course.show');
 
-// Redirect authenticated users to Filament Admin Dashboard
+// Redirect authenticated users based on their role
 Route::get('dashboard', function () {
-    return redirect('/admin');
+    $user = auth()->user();
+    
+    if ($user->isAdmin()) {
+        return redirect()->intended('/admin');
+    }
+    
+    if ($user->isInstructor()) {
+        return redirect()->intended(route('instructor.dashboard'));
+    }
+    
+    return redirect()->intended(route('student.my-learning'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Student Routes
 Route::middleware(['auth', 'role:student|admin'])->group(function () {
     Route::get('/my-learning', MyLearning::class)->name('student.my-learning');
     Route::get('/courses/{course}/learn', CoursePlayer::class)->name('student.course.learn');
+    Route::get('/become-instructor', ApplyToBecomeInstructor::class)->name('instructor.apply');
 });
 
 // Instructor Routes - Keep Livewire for now, can migrate to Filament later

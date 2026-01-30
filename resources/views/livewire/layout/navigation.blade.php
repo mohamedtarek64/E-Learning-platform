@@ -39,6 +39,12 @@ new class extends Component
                             <x-nav-link :href="route('student.my-learning')" :active="request()->routeIs('student.my-learning')" wire:navigate>
                                 {{ __('My Learning') }}
                             </x-nav-link>
+
+                            @if(auth()->user()?->role === 'student')
+                                <x-nav-link :href="route('instructor.apply')" :active="request()->routeIs('instructor.apply')" wire:navigate>
+                                    {{ __('Teach on E-Learning') }}
+                                </x-nav-link>
+                            @endif
                         @endif
 
                         @if(auth()->user()?->role === 'instructor' || auth()->user()?->role === 'admin')
@@ -48,7 +54,7 @@ new class extends Component
                         @endif
 
                         @if(auth()->user()?->role === 'admin')
-                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" wire:navigate>
+                            <x-nav-link :href="url('/admin')" :active="request()->is('admin*')" wire:navigate>
                                 {{ __('Admin') }}
                             </x-nav-link>
                         @endif
@@ -128,8 +134,8 @@ new class extends Component
                 @endif
 
                 @if(auth()->user()?->role === 'admin')
-                    <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" wire:navigate>
-                        {{ __('Admin Dashboard') }}
+                    <x-responsive-nav-link :href="url('/admin')" :active="request()->is('admin*')" wire:navigate>
+                        {{ __('Admin Panel') }}
                     </x-responsive-nav-link>
                 @endif
             @else
