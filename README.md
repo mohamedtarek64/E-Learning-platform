@@ -1,111 +1,243 @@
-# 🎓 E-Learning Platform
+# E-Learning Platform
 
-A robust, full-featured online learning management system (LMS) built with **Laravel 12**, **Filament 3**, and **Livewire 3**. This platform empowers instructors to create and sell courses while providing students with an engaging learning experience.
+A complete online learning management system built with Laravel 12 and Filament 4 admin panel. The platform enables instructors to create and monetize video courses while providing students with an intuitive learning experience.
 
-## ✨ Key Features
+![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel)
+![Filament](https://img.shields.io/badge/Filament-4.x-FFAA00?style=flat-square&logo=laravel)
+![Livewire](https://img.shields.io/badge/Livewire-3.x-FB70A9?style=flat-square&logo=livewire)
+![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat-square&logo=php)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-### 👨‍🏫 For Instructors
-- **Instructor Dashboard**: Detailed analytics on earnings, students, and course performance.
-- **Course Builder**: Intuitive, step-by-step course creation wizard.
-  - Video uploads & management.
-  - Curriculum structuring (Sections & Lessons).
-  - Quiz creation & grading.
-  - Resource management (PDFs, docs).
-- **Earnings & Payouts**: real-time earning tracking and payout request system.
-- **Student Management**: Monitor student progress and enrollments.
+---
 
-### 👨‍🎓 For Students
-- **Course Discovery**: Advanced search and filtering (Category, Level, Price).
-- **My Learning**: Personalized dashboard to track enrolled courses and progress.
-- **Course Player**: Immersive video player with:
-  - Progress tracking.
-  - Lesson completion marking.
-  - Resource downloads.
-  - Q&A discussions.
-- **Certification**: Automated certificate generation upon course completion.
+## About
 
-### 🛡️ For Admins (Filament Panel)
-- **User Management**: Manage Students, Instructors, and Admins.
-- **Course Moderation**: Review and approve/reject courses.
-- **Content Management**: Manage Categories, Tags, and Reviews.
-- **Financial Oversight**: Monitor payments, refunds, and instructor payouts.
-- **System Settings**: Configure platform-wide settings (SEO, Mail, Payment Gateways).
-- **Role-Based Access Control**: Granular permissions using Spatie Permissions.
+This project is a training/portfolio application demonstrating advanced Laravel backend development. It covers complex business logic including:
 
-## 🛠️ Tech Stack
+- Multi-role user management (Admin, Instructor, Student)
+- Course creation with video lessons and curriculum structuring
+- Student enrollment and progress tracking
+- Payment processing with Stripe integration
+- Instructor earnings and payout management
+- Certificate generation upon course completion
 
-- **Backend Framework**: Laravel 12.x
-- **Frontend Interactivity**: Livewire 3.x (No complex JS frameworks required)
-- **Admin Panel**: Filament 3.x
-- **Database**: MySQL 8.x
-- **Styling**: Tailwind CSS 3.x
-- **Authentication**: Laravel Breeze
-- **Permissions**: Spatie Laravel Permission
-- **Media**: Spatie Media Library
-- **Payments**: Laravel Cashier (Stripe Integration)
+---
 
-## 🚀 Getting Started
+## Tech Stack
 
-### Prerequisites
-- PHP 8.2+
+| Category | Technology |
+|----------|------------|
+| Backend | Laravel 12, PHP 8.2+ |
+| Frontend | Livewire 3, Blade, Tailwind CSS |
+| Admin Panel | Filament 4 |
+| Database | MySQL 8.0+ |
+| Authentication | Laravel Breeze |
+| Authorization | Spatie Permission |
+| Media Handling | Spatie Media Library, Intervention Image |
+| Video Processing | FFmpeg via Laravel-FFmpeg |
+| Payments | Laravel Cashier (Stripe) |
+| PDF Generation | DomPDF |
+| Excel Export | Maatwebsite Excel |
+
+---
+
+## Features
+
+### Student Features
+- Browse and search courses by category, level, and price
+- Enroll in free or paid courses
+- Video player with progress tracking
+- Mark lessons as complete
+- Download course resources
+- Rate and review courses
+- Earn certificates upon completion
+
+### Instructor Features
+- Apply to become an instructor
+- Multi-step course creation wizard
+- Upload and manage video lessons
+- Create sections and organize curriculum
+- Set course pricing
+- View earnings dashboard
+- Request payouts
+
+### Admin Panel (Filament)
+- User management with role assignment
+- Approve/reject instructor applications
+- Course moderation
+- Category management
+- Payment and payout oversight
+- Analytics dashboard
+- Site settings configuration
+
+---
+
+## Database Schema
+
+The application uses ~26 migration files covering:
+
+- **Users & Profiles**: users, instructor_profiles, student_profiles
+- **Courses**: categories, courses, course_sections, lessons, lesson_resources
+- **Quizzes**: quizzes, quiz_questions, quiz_answers, student_quiz_attempts
+- **Enrollments**: course_enrollments, lesson_completions, course_progress
+- **Reviews**: course_reviews, review_reports
+- **Payments**: payments, instructor_earnings, instructor_payouts
+- **Certificates**: certificates
+- **Discussions**: course_discussions, discussion_replies
+- **Marketing**: coupons, coupon_usages, course_announcements
+- **Shopping**: wishlists, cart_items
+- **Analytics**: course_views, video_watch_logs
+
+---
+
+## Installation
+
+### Requirements
+- PHP 8.2 or higher
 - Composer
-- Node.js & NPM
-- MySQL
+- Node.js 18+ and NPM
+- MySQL 8.0+
+- FFmpeg (optional, for video processing)
 
-### Installation
+### Setup
 
-1.  **Clone the repository**
-    ```bash
-    git clone https://github.com/mohamedtarek64/E-Learning-platform.git
-    cd E-Learning-platform
-    ```
+```bash
+# Clone the repository
+git clone https://github.com/mohamedtarek64/E-Learning-platform.git
+cd E-Learning-platform
 
-2.  **Install PHP Dependencies**
-    ```bash
-    composer install
-    ```
+# Install PHP dependencies
+composer install
 
-3.  **Install NPM Dependencies**
-    ```bash
-    npm install && npm run build
-    ```
+# Install Node dependencies and build assets
+npm install
+npm run build
 
-4.  **Environment Setup**
-    ```bash
-    cp .env.example .env
-    php artisan key:generate
-    ```
-    *Configure your database credentials in the `.env` file.*
+# Copy environment file and generate app key
+cp .env.example .env
+php artisan key:generate
 
-5.  **Database Migration & Seeding**
-    ```bash
-    php artisan migrate --seed
-    ```
-    *This will create the database structure and populate it with initial data (Admin user, Roles, etc.).*
+# Configure database in .env file
+# DB_DATABASE=elearning
+# DB_USERNAME=root
+# DB_PASSWORD=
 
-6.  **Storage Link**
-    ```bash
-    php artisan storage:link
-    ```
+# Run migrations and seeders
+php artisan migrate --seed
 
-7.  **Run the Application**
-    ```bash
-    php artisan serve
-    ```
+# Create storage link
+php artisan storage:link
 
-### 🔑 Default Access
+# Start the development server
+php artisan serve
+```
 
-**Admin Panel**: `/admin`
-- **Email**: `admin@example.com`
-- **Password**: `password`
+Or use the quick setup script:
+```bash
+composer setup
+```
 
-**Instructor Dashboard**: `/instructor/dashboard`
-**Student Learning**: `/my-learning`
+---
 
-## 🤝 Contribution
+## Default Credentials
 
-Contributions are welcome! Please fork the repository and submit a pull request.
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@example.com | password |
 
-## 📄 License
+Access the admin panel at: `/admin`
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Project Structure
+
+```
+app/
+├── Filament/           # Admin panel resources, pages, widgets
+│   ├── Resources/      # CRUD resources (Users, Courses, Payments, etc.)
+│   ├── Pages/          # Custom pages (Analytics, Settings)
+│   └── Widgets/        # Dashboard widgets
+├── Http/
+│   └── Controllers/    # HTTP controllers
+├── Livewire/           # Livewire components
+│   ├── Public/         # Public-facing components (CourseGrid, CourseShow)
+│   ├── Student/        # Student components (MyLearning, CoursePlayer)
+│   └── Instructor/     # Instructor components (Dashboard, CourseBuilder)
+├── Models/             # Eloquent models
+└── Policies/           # Authorization policies
+
+resources/views/
+├── components/         # Blade components
+├── layouts/            # Layout templates
+└── livewire/           # Livewire component views
+```
+
+---
+
+## Routes
+
+| Route | Description |
+|-------|-------------|
+| `/` | Homepage with course listings |
+| `/courses/{slug}` | Course details page |
+| `/login`, `/register` | Authentication |
+| `/my-learning` | Student enrolled courses |
+| `/courses/{id}/learn` | Course player |
+| `/become-instructor` | Instructor application |
+| `/instructor/dashboard` | Instructor dashboard |
+| `/instructor/courses` | Manage instructor courses |
+| `/admin` | Filament admin panel |
+
+---
+
+## Configuration
+
+### Stripe Payments
+Add your Stripe keys to `.env`:
+```
+STRIPE_KEY=pk_test_...
+STRIPE_SECRET=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+### Mail
+Configure mail settings in `.env` for notifications:
+```
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=
+MAIL_PASSWORD=
+```
+
+---
+
+## Development
+
+Run the development server with hot reload:
+```bash
+composer dev
+```
+
+This starts:
+- Laravel server on port 8000
+- Queue worker
+- Vite for asset compilation
+
+Run tests:
+```bash
+composer test
+```
+
+---
+
+## Author
+
+**Mohamed Elkenany**  
+mohamedelkenany001@gmail.com
+
+---
+
+## License
+
+This project is open-sourced under the [MIT License](LICENSE).
