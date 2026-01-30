@@ -6,15 +6,14 @@ use Filament\Pages\Page;
 use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\CoursesChart;
 use App\Filament\Widgets\LatestCourses;
+use BackedEnum;
+use UnitEnum;
 
 class Analytics extends Page
 {
-    protected static $navigationIcon = 'heroicon-o-chart-bar';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-chart-bar';
 
-    public static function getNavigationGroup(): ?string
-    {
-        return '⚙️ System';
-    }
+    protected static string | UnitEnum | null $navigationGroup = '⚙️ System';
 
     protected string $view = 'filament.pages.analytics';
 

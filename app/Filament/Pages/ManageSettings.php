@@ -3,33 +3,32 @@
 namespace App\Filament\Pages;
 
 use App\Settings\GeneralSettings;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Schema;
 use Filament\Pages\SettingsPage;
+use BackedEnum;
+use UnitEnum;
 
 class ManageSettings extends SettingsPage
 {
-    protected static $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-cog-6-tooth';
+
+    protected static string | UnitEnum | null $navigationGroup = '⚙️ System';
 
     protected static string $settings = GeneralSettings::class;
 
-    public static function getNavigationGroup(): ?string
+    protected static ?string $navigationLabel = 'Site Settings';
+
+    protected static ?string $title = 'App Settings';
+
+    public function form(Schema $schema): Schema
     {
-        return '⚙️ System';
-    }
-
-    protected static $navigationLabel = 'Site Settings';
-
-    protected static $title = 'App Settings';
-
-    public function form(\Filament\Forms\Form $form): \Filament\Forms\Form
-    {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Tabs::make('Settings')
                     ->tabs([
                         Tabs\Tab::make('General')
