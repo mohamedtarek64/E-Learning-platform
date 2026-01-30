@@ -28,8 +28,15 @@ class CoursePlayer extends Component
         $this->course = Course::with(['sections.lessons'])->findOrFail($this->courseId);
         
         // Start with the first lesson if none selected
-        $this->currentLesson = $this->course->sections->first()->lessons->first();
-        $this->currentLessonId = $this->currentLesson->id;
+        $firstSection = $this->course->sections->first();
+        if ($firstSection && $firstSection->lessons->isNotEmpty()) {
+            $this->currentLesson = $firstSection->lessons->first();
+            $this->currentLessonId = $this->currentLesson->id;
+        } else {
+             // Handle empty course case
+             session()->flash('error', 'This course has no content yet.');
+             return redirect()->route('student.my-learning');
+        }
     }
 
     public function selectLesson($lessonId)

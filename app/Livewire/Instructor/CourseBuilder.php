@@ -37,6 +37,13 @@ class CourseBuilder extends Component
     public $sections = [];
     public $newSectionTitle;
     public $newLessonTitles = [];
+    
+    // Lesson Editing State
+    public $editingLessonId = null;
+    public $editingLessonTitle;
+    public $editingLessonVideoUrl;
+    public $editingLessonDescription;
+    public $editingLessonIsPreview = false;
 
     public function mount($course = null)
     {
@@ -114,6 +121,42 @@ class CourseBuilder extends Component
     {
         \App\Models\Lesson::find($lessonId)->delete();
         $this->loadSections();
+    }
+
+    public function editLesson($lessonId)
+    {
+        $lesson = \App\Models\Lesson::find($lessonId);
+        $this->editingLessonId = $lesson->id;
+        $this->editingLessonTitle = $lesson->title;
+        $this->editingLessonVideoUrl = $lesson->video_url;
+        $this->editingLessonDescription = $lesson->description;
+        $this->editingLessonIsPreview = (bool) $lesson->is_preview;
+    }
+
+    public function updateLesson()
+    {
+        $this->validate([
+            'editingLessonTitle' => 'required|string|max:255',
+            'editingLessonVideoUrl' => 'nullable|url',
+            'editingLessonDescription' => 'nullable|string',
+        ]);
+
+        $lesson = \App\Models\Lesson::find($this->editingLessonId);
+        $lesson->update([
+            'title' => $this->editingLessonTitle,
+            'video_url' => $this->editingLessonVideoUrl,
+            'description' => $this->editingLessonDescription,
+            'is_preview' => $this->editingLessonIsPreview,
+        ]);
+
+        $this->cancelEdit();
+        $this->loadSections();
+    }
+
+    public function cancelEdit()
+    {
+        $this->editingLessonId = null;
+        $this->reset(['editingLessonTitle', 'editingLessonVideoUrl', 'editingLessonDescription', 'editingLessonIsPreview']);
     }
 
     public function setStep($step)
